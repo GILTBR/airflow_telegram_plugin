@@ -4,14 +4,16 @@ import telebot
 
 
 class TelegramHook(BaseHook):
+    # TODO Docstring
 
     def __init__(self, telegram_conn_id=None, chat_id=None, *args, **kwargs):
-
+        # TODO Docstring
         super(TelegramHook, self).__init__(*args, **kwargs)
         self.token = self._get_token(telegram_conn_id)
         self.chat_id = self._get_chat_id(telegram_conn_id, chat_id)
 
     def _get_token(self, token, telegram_conn_id):
+        # TODO Docstring
         if token:
             return token
 
@@ -26,6 +28,7 @@ class TelegramHook(BaseHook):
             raise AirflowException('Cannot get token: No valid Telegram token nor telegram_conn_id supplied.')
 
     def _get_chat_id(self, telegram_conn_id, chat_id):
+        # TODO Docstring
         if chat_id:
             return chat_id
 
@@ -42,6 +45,7 @@ class TelegramHook(BaseHook):
             raise AirflowException('write')
 
     def send_message(self, message):
+        # TODO Docstring
         try:
             bot = telebot.TeleBot(token=self.token)
         except Exception as e:
