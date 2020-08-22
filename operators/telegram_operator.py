@@ -1,9 +1,10 @@
-from airflow.operators.bash_operator import BashOperator
-from .telegram_hook import TelegramHook
+from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
+from hooks.telegram_hook import TelegramHook
 
-class TelegramOperator(BashOperator):
+
+class TelegramOperator(BaseOperator):
     # TODO Docstring
     @apply_defaults
     def __init__(self, telegram_conn_id='telegram_default', chat_id=None, message='', *args, **kwargs):

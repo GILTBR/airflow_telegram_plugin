@@ -8,7 +8,7 @@ class TelegramHook(BaseHook):
 
     def __init__(self, telegram_conn_id=None, token=None, chat_id=None, *args, **kwargs):
         # TODO Docstring
-        super().__init__(*args, **kwargs)
+        super(TelegramHook, self).__init__(*args, **kwargs)
         self.token = self._get_token(telegram_conn_id, token)
         self.chat_id = self._get_chat_id(telegram_conn_id, chat_id)
 
