@@ -1,11 +1,15 @@
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-from hooks.telegram_hook import TelegramHook
+from ..hooks.telegram_hook import TelegramHook
 
 
 class TelegramOperator(BaseOperator):
     # TODO Docstring
+
+    ui_color = '#5E81AC'
+    ui_fgcolor = '#ECEFF4'
+
     @apply_defaults
     def __init__(self, telegram_conn_id='telegram_default', chat_id=None, message='', *args, **kwargs):
         # TODO Docstring
