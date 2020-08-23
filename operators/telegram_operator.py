@@ -1,7 +1,7 @@
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
-from hooks.telegram_hook import TelegramHook
+from airflow_telegram_plugin.hooks.telegram_hook import TelegramHook
 
 
 class TelegramOperator(BaseOperator):
