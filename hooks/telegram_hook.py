@@ -4,16 +4,37 @@ from airflow.hooks.base_hook import BaseHook
 
 
 class TelegramHook(BaseHook):
-    # TODO Docstring
+    """
+    Interact with Telegram and create a bot client, using the pyTelegramBotAPI library.
+    """
 
     def __init__(self, telegram_conn_id=None, token=None, chat_id=None, *args, **kwargs):
-        # TODO Docstring
+        """
+        Takes both Telegram bot API token and Airflow connection that has a Telegram bot API token.
+        If both are provided, Telegram bot API token will be used
+
+        :param telegram_conn_id:
+        :param token: Telegram API token
+        :type token: str
+        :param chat_id:
+        :type chat_id: str
+        :return: Telegram bot object
+
+        """
         super(TelegramHook, self).__init__(source=kwargs)
         self.token = self._get_token(telegram_conn_id, token)
         self.chat_id = self._get_chat_id(telegram_conn_id, chat_id)
 
     def _get_token(self, telegram_conn_id, token):
         # TODO Docstring
+        """
+
+        :param telegram_conn_id:
+        :type telegram_conn_id: str
+        :param token:
+        :type token: str
+        :return: Valid Telegram bot API token
+        """
         if token:
             return token
 
@@ -29,6 +50,14 @@ class TelegramHook(BaseHook):
 
     def _get_chat_id(self, telegram_conn_id, chat_id):
         # TODO Docstring
+        """
+
+        :param telegram_conn_id:
+        :type telegram_conn_id:
+        :param chat_id:
+        :type chat_id:
+        :return:
+        """
         if chat_id:
             return chat_id
 
@@ -48,4 +77,5 @@ class TelegramHook(BaseHook):
     def send_message(self, message):
         # TODO Docstring
         telegram_client = telebot.TeleBot(token=self.token)
+        self.log.info(f'Sending message: {message}')
         telegram_client.send_message(chat_id=self.chat_id, text=message)
