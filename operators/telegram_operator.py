@@ -22,8 +22,8 @@ class TelegramOperator(BaseOperator):
         # TODO Docstring
         hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, chat_id=self.chat_id)
         self.log.info(f'Sending message: {self.message}')
-        print(self.message)
+        self.log.info(self.message)
         try:
             hook.send_message(message=self.message)
         except Exception as e:
-            print(e)
+            self.log.info(e)
