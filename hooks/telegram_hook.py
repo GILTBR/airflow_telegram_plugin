@@ -78,4 +78,8 @@ class TelegramHook(BaseHook):
         # TODO Docstring
         telegram_client = telebot.TeleBot(token=self.token)
         self.log.info(f'Sending message: {message}')
-        telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='Markdown')
+        print(message)
+        try:
+            telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='Markdown')
+        except Exception as e:
+            print(e)
