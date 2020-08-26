@@ -1,3 +1,4 @@
+from airflow.exceptions import AirflowException
 from airflow.models import BaseOperator
 from airflow.utils.decorators import apply_defaults
 
@@ -22,8 +23,7 @@ class TelegramOperator(BaseOperator):
         # TODO Docstring
         hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, chat_id=self.chat_id)
         self.log.info(f'Sending message: {self.message}')
-        self.log.info(self.message)
         try:
             hook.send_message(message=self.message)
-        except Exception as e:
-            self.log.info(e)
+        except AirflowException as e:
+            self.log.exception(e)
