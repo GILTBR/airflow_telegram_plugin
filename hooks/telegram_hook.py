@@ -14,6 +14,7 @@ class TelegramHook(BaseHook):
         If both are provided, Telegram bot API token will be used
 
         :param telegram_conn_id:
+        :type telegram_conn_id
         :param token: Telegram API token
         :type token: str
         :param chat_id:
@@ -76,9 +77,9 @@ class TelegramHook(BaseHook):
 
     def send_message(self, message):
         # TODO Docstring
-        telegram_client = telebot.TeleBot(token=self.token, parse_mode='Markdown')
+        telegram_client = telebot.TeleBot(token=self.token)
         self.log.info(f'Sending message: {message}')
         try:
-            telegram_client.send_message(chat_id=self.chat_id, text=message)
+            telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='HTML')
         except AirflowException as e:
             self.log.exception(e)
