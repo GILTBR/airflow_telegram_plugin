@@ -80,6 +80,9 @@ class TelegramHook(BaseHook):
         telegram_client = telebot.TeleBot(token=self.token)
         self.log.info(f'Sending message: {message}')
         try:
-            telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='HTML')
+            self.log.info(type(message))
+            self.log.info(message.__dir__())
+            self.log.info(isinstance(message, str))
+            telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='Markdown')
         except AirflowException as e:
             self.log.exception(e)

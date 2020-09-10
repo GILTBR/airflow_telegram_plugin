@@ -23,6 +23,9 @@ class TelegramOperator(BaseOperator):
         # TODO Docstring
         hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, chat_id=self.chat_id)
         self.log.info(f'Sending message: {self.message}')
+        self.log.info(type(self.message))
+        self.log.info(self.message.__dir__())
+        self.log.info(isinstance(self.message, str))
         try:
             hook.send_message(message=self.message)
         except AirflowException as e:
