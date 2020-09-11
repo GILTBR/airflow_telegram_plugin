@@ -18,9 +18,6 @@ class TelegramOperator(BaseOperator):
         self.telegram_conn_id = telegram_conn_id
         self.chat_id = chat_id
         self.message = message
-        self.log.info(f'***** {self.message} *****')
-        self.log.info(f'***** {self.message.encode(encoding="UTF-8")} *****')
-        self.log.info(f'***** {self.message.decode(encoding="UTF-8")} *****')
 
     def execute(self, context):
         # TODO Docstring
@@ -30,6 +27,6 @@ class TelegramOperator(BaseOperator):
         self.log.info(self.message.__dir__())
         self.log.info(isinstance(self.message, str))
         try:
-            hook.send_message(message=self.message)
+            hook.send_message(message=self.message, parse_mode='Markdown')
         except AirflowException as e:
             self.log.exception(e)
