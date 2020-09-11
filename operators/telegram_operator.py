@@ -18,6 +18,9 @@ class TelegramOperator(BaseOperator):
         self.telegram_conn_id = telegram_conn_id
         self.chat_id = chat_id
         self.message = message
+        self.log.info(f'***** {self.message} *****')
+        self.log.info(f'***** {self.message.encode(encoding="UTF-8")} *****')
+        self.log.info(f'***** {self.message.decode(encoding="UTF-8")} *****')
 
     def execute(self, context):
         # TODO Docstring
