@@ -75,7 +75,7 @@ class TelegramHook(BaseHook):
             raise AirflowException(
                 "Cannot get chat_id: No valid chat_id nor telegram_conn_id with 'host' field was given")
 
-    def send_message(self, message, parse_mode=None):
+    def send_message(self, message):
         # TODO Docstring
         telegram_client = telebot.TeleBot(token=self.token)
         self.log.info(f'Sending message: {message}')
@@ -83,6 +83,6 @@ class TelegramHook(BaseHook):
             self.log.info(type(message))
             self.log.info(message.__dir__())
             self.log.info(isinstance(message, str))
-            telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode=parse_mode)
+            telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='Markdown')
         except AirflowException as e:
             self.log.exception(e)

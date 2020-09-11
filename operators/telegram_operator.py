@@ -29,6 +29,6 @@ class TelegramOperator(BaseOperator):
         self.log.info(self.message.__dir__())
         self.log.info(isinstance(self.message, str))
         try:
-            hook.send_message(message=self.message, parse_mode='Markdown')
+            hook.send_message(message=self.message)
         except AirflowException as e:
             self.log.exception(e)
