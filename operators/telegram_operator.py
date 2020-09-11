@@ -20,7 +20,6 @@ class TelegramOperator(BaseOperator):
         self.message = message
         self.log.info(f'***** {self.message} *****')
         self.log.info(f'***** {self.message.encode(encoding="UTF-8")} *****')
-        self.log.info(f'***** {self.message.decode(encoding="UTF-8")} *****')
 
     def execute(self, context):
         # TODO Docstring
