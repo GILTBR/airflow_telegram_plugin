@@ -6,29 +6,41 @@ from airflow_telegram_plugin.hooks.telegram_hook import TelegramHook
 
 
 class TelegramOperator(BaseOperator):
-    # TODO Docstring
+    """
+    Send a message with Telegram using a bot client.
+    """
 
     ui_color = '#5E81AC'
     ui_fgcolor = '#ECEFF4'
 
     @apply_defaults
-    def __init__(self, telegram_conn_id='telegram_conn_id', chat_id=None, message='', *args, **kwargs):
-        # TODO Docstring
+    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, message='', *args, **kwargs):
+        """
+        Takes both Telegram API token and Airflow connection that has a Telegram  API token in the password field.
+        If both are provided, Telegram bot API token will be used.
+        Takes both chat_id and Airflow connection_id with the chat_id in the host field.
+        If both are provided, chat_id will be used.
+
+        :param telegram_conn_id: Airflow connection id
+        :type telegram_conn_id: str
+        :param token: Telegram API token
+        :type token: str
+        :param chat_id: Either a personal chat_id or a channel chat_id
+        :type chat_id: int
+        :param message: Message to send
+        :type message: str
+        """
         super(TelegramOperator, self).__init__(*args, **kwargs)
         self.telegram_conn_id = telegram_conn_id
+        self.token = token
         self.chat_id = chat_id
         self.message = message
-        self.log.info(f'***** {self.message} *****')
-        self.log.info(f'***** {self.message.encode(encoding="UTF-8")} *****')
 
     def execute(self, context):
-        # TODO Docstring
-        hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, chat_id=self.chat_id)
-        self.log.info(f'Sending message: {self.message}')
-        self.log.info(type(self.message))
-        self.log.info(self.message.__dir__())
-        self.log.info(isinstance(self.message, str))
         try:
-            hook.send_message(message=self.message)
+            hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, token=self.token, chat_id=self.chat_id)
         except AirflowException as e:
             self.log.exception(e)
+            raise e
+        else:
+            hook.send_message(message=self.message)
