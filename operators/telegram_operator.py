@@ -14,13 +14,16 @@ class TelegramOperator(BaseOperator):
     ui_fgcolor = '#ECEFF4'
 
     @apply_defaults
-    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, message='', *args, **kwargs):
+    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, parse_mode=None, message='',
+                 *args, **kwargs):
         """
         Takes both Telegram API token and Airflow connection that has a Telegram  API token in the password field.
         If both are provided, Telegram bot API token will be used.
         Takes both chat_id and Airflow connection_id with the chat_id in the host field.
         If both are provided, chat_id will be used.
 
+        :param parse_mode: Parsing method for the message
+        :type parse_mode: str
         :param telegram_conn_id: Airflow connection id
         :type telegram_conn_id: str
         :param token: Telegram API token
@@ -31,6 +34,7 @@ class TelegramOperator(BaseOperator):
         :type message: str
         """
         super(TelegramOperator, self).__init__(*args, **kwargs)
+        self.parse_mode = parse_mode
         self.telegram_conn_id = telegram_conn_id
         self.token = token
         self.chat_id = chat_id
@@ -43,4 +47,4 @@ class TelegramOperator(BaseOperator):
             self.log.exception(e)
             raise e
         else:
-            hook.send_message(message=self.message)
+            hook.send_message(message=self.message, parse_mode=self.parse_mode)

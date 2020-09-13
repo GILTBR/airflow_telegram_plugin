@@ -85,15 +85,17 @@ class TelegramHook(BaseHook):
         else:
             return telegram_client
 
-    def send_message(self, message):
+    def send_message(self, message, parse_mode):
         """
         Sends a message to the given chat_id
 
+        :param parse_mode: Parsing method for the message
+        :type parse_mode: str
         :param message: Message to send
         :type message: str
         """
         try:
-            self.telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode='Markdown')
+            self.telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode=parse_mode)
             self.log.info(f'Sending message: {message}')
         except AirflowException as e:
             self.log.exception(f'Error occurred while trying to send a message: {e}')
