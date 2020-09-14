@@ -14,7 +14,7 @@ class TelegramOperator(BaseOperator):
     ui_fgcolor = '#ECEFF4'
 
     @apply_defaults
-    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, parse_mode=None, message='',
+    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, parse_mode='', message='',
                  *args, **kwargs):
         """
         Takes both Telegram API token and Airflow connection that has a Telegram  API token in the password field.

@@ -21,7 +21,7 @@ class TelegramHook(BaseHook):
     :type chat_id: int
     """
 
-    def __init__(self, telegram_conn_id=None, token=None, chat_id=None, parse_mode=None, **kwargs):
+    def __init__(self, telegram_conn_id=None, token=None, chat_id=None, parse_mode='', **kwargs):
         super(TelegramHook, self).__init__(source=kwargs)
         self.token = self._get_token(telegram_conn_id, token)
         self.chat_id = self._get_chat_id(telegram_conn_id, chat_id)
