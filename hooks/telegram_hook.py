@@ -85,7 +85,7 @@ class TelegramHook(BaseHook):
         else:
             return telegram_client
 
-    def send_message(self, message, parse_mode):
+    def send_message(self, message, parse_mode=None):
         """
         Sends a message to the given chat_id
 
