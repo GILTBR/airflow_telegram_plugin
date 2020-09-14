@@ -14,7 +14,7 @@ class TelegramOperator(BaseOperator):
     ui_fgcolor = '#ECEFF4'
 
     @apply_defaults
-    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, parse_mode='', message='',
+    def __init__(self, telegram_conn_id='telegram_conn_id', token=None, chat_id=None, message='',
                  *args, **kwargs):
         """
         Takes both Telegram API token and Airflow connection that has a Telegram  API token in the password field.
@@ -22,8 +22,6 @@ class TelegramOperator(BaseOperator):
         Takes both chat_id and Airflow connection_id with the chat_id in the host field.
         If both are provided, chat_id will be used.
 
-        :param parse_mode: Parsing method for the message
-        :type parse_mode: str
         :param telegram_conn_id: Airflow connection id
         :type telegram_conn_id: str
         :param token: Telegram API token
@@ -34,7 +32,6 @@ class TelegramOperator(BaseOperator):
         :type message: str
         """
         super(TelegramOperator, self).__init__(*args, **kwargs)
-        self.parse_mode = parse_mode
         self.telegram_conn_id = telegram_conn_id
         self.token = token
         self.chat_id = chat_id
@@ -42,8 +39,7 @@ class TelegramOperator(BaseOperator):
 
     def execute(self, context):
         try:
-            hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, token=self.token, parse_mode=self.parse_mode,
-                                chat_id=self.chat_id)
+            hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, token=self.token, chat_id=self.chat_id)
         except AirflowException as e:
             self.log.exception(e)
             raise e
