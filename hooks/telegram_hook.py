@@ -21,11 +21,12 @@ class TelegramHook(BaseHook):
     :type chat_id: int
     """
 
-    def __init__(self, telegram_conn_id=None, token=None, chat_id=None, **kwargs):
+    def __init__(self, telegram_conn_id=None, token=None, chat_id=None, parse_mode=None, **kwargs):
         super(TelegramHook, self).__init__(source=kwargs)
         self.token = self._get_token(telegram_conn_id, token)
         self.chat_id = self._get_chat_id(telegram_conn_id, chat_id)
-        self.telegram_client = self._get_client(self.token)
+        self.parse_mode = parse_mode
+        self.telegram_client = self._get_client(self.token, self.parse_mode)
 
     def _get_token(self, telegram_conn_id, token):
         """
@@ -60,6 +61,8 @@ class TelegramHook(BaseHook):
         :param chat_id: Either a personal chat_id or a channel chat_id
         :type chat_id: int
         :return: Valid chat_id
+        :param parse_mode: Parsing method for the message
+        :type parse_mode: str
         """
         if chat_id:
             if isinstance(chat_id, int):
@@ -76,26 +79,24 @@ class TelegramHook(BaseHook):
             raise AirflowException(
                 "Cannot get chat_id: No valid chat_id nor telegram_conn_id with 'host' field was given")
 
-    def _get_client(self, token):
+    def _get_client(self, token, parse_mode):
         try:
-            telegram_client = telebot.TeleBot(token=token)
+            telegram_client = telebot.TeleBot(token=token, parse_mode=parse_mode)
         except AirflowException as e:
             self.log.exception(f'Error occurred while trying to create a telegram client: {e}')
             raise e
         else:
             return telegram_client
 
-    def send_message(self, message, parse_mode=None):
+    def send_message(self, message):
         """
         Sends a message to the given chat_id
 
-        :param parse_mode: Parsing method for the message
-        :type parse_mode: str
         :param message: Message to send
         :type message: str
         """
         try:
-            self.telegram_client.send_message(chat_id=self.chat_id, text=message, parse_mode=parse_mode)
+            self.telegram_client.send_message(chat_id=self.chat_id, text=message)
             self.log.info(f'Sending message: {message}')
         except AirflowException as e:
             self.log.exception(f'Error occurred while trying to send a message: {e}')

@@ -42,9 +42,10 @@ class TelegramOperator(BaseOperator):
 
     def execute(self, context):
         try:
-            hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, token=self.token, chat_id=self.chat_id)
+            hook = TelegramHook(telegram_conn_id=self.telegram_conn_id, token=self.token, parse_mode=self.parse_mode,
+                                chat_id=self.chat_id)
         except AirflowException as e:
             self.log.exception(e)
             raise e
         else:
-            hook.send_message(message=self.message, parse_mode=self.parse_mode)
+            hook.send_message(message=self.message)
